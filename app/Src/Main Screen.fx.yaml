@@ -1,0 +1,66 @@
+"'Main Screen' As screen":
+
+    Label2 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =68
+        Size: =26
+        Text: |-
+            ="Current Score: " & CurrentScore
+        Width: =360
+        X: =40
+        Y: =40
+        ZIndex: =1
+
+    Label2_1 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =68
+        Size: =26
+        Text: |-
+            ="Total Score: " & TotalScore
+        Width: =360
+        X: =482
+        Y: =40
+        ZIndex: =2
+
+    Image1 As image:
+        Height: =250
+        Image: =PlayingNow.cr3ba_url
+        Width: =250
+        X: =524
+        Y: =158
+        ZIndex: =3
+
+    "'Submit Button' As button":
+        OnSelect: |
+            =Set(ShowBanner, true);
+            If(TextInput.Text = PlayingNow.cr3ba_country_name, Set(GuessedCorrect, true), Set(GuessedCorrect, false));
+            If(GuessedCorrect, 
+                Set(TotalScore, TotalScore+CurrentScore);
+                Set(CurrentScore, 100);
+                Reset(TextInput);
+                RemoveIf(Unplayed, cr3ba_country_name = PlayingNow.cr3ba_country_name);
+                Set(PlayingNow, First(Shuffle(Unplayed))), 
+                Set(CurrentScore, CurrentScore - 10))
+        Text: ="Go!"
+        Width: =110
+        X: =753
+        Y: =408
+        ZIndex: =4
+
+    TextInput As text:
+        Default: =
+        HintText: ="Enter Country Name"
+        OnChange: =Set(ShowBanner, false)
+        X: =365
+        Y: =408
+        ZIndex: =5
+
+    Banner As label:
+        FontWeight: =FontWeight.Bold
+        Size: =20
+        Text: =If(TextInput.Text = PlayingNow.cr3ba_country_name, "Yes!", "Nope!")
+        Visible: =ShowBanner
+        X: =574
+        Y: =136
+        ZIndex: =6
+

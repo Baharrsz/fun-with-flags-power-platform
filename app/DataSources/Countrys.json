@@ -1,0 +1,139 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cr3ba_countries",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cr3ba_country",
+    "Name": "Countrys",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cr3ba_capital": "cr3ba_capital",
+      "cr3ba_cctld": "cr3ba_cctld",
+      "cr3ba_country_alpha3_code": "cr3ba_country_alpha3_code",
+      "cr3ba_country_AsyncOperations": "System Jobs",
+      "cr3ba_country_BulkDeleteFailures": "Bulk Delete Failures",
+      "cr3ba_country_code": "cr3ba_country_code",
+      "cr3ba_country_demonym": "cr3ba_country_demonym",
+      "cr3ba_country_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cr3ba_country_name": "cr3ba_country_name",
+      "cr3ba_country_numeric_code": "cr3ba_country_numeric_code",
+      "cr3ba_country_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cr3ba_country_ProcessSession": "Process Sessions",
+      "cr3ba_country_SyncErrors": "Sync Errors",
+      "cr3ba_countryid": "Country",
+      "cr3ba_countryinfoid": "cr3ba_countryinfoid",
+      "cr3ba_createdby": "createdby (cr3ba_createdby)",
+      "cr3ba_createdbyname": "createdbyname",
+      "cr3ba_createdbyyominame": "createdbyyominame",
+      "cr3ba_createdon": "createdon (cr3ba_createdon)",
+      "cr3ba_createdonbehalfby": "createdonbehalfby (cr3ba_createdonbehalfby)",
+      "cr3ba_createdonbehalfbyname": "createdonbehalfbyname",
+      "cr3ba_createdonbehalfbyyominame": "createdonbehalfbyyominame",
+      "cr3ba_currency_code": "cr3ba_currency_code",
+      "cr3ba_currency_name": "cr3ba_currency_name",
+      "cr3ba_currency_symbol": "cr3ba_currency_symbol",
+      "cr3ba_idd_code": "cr3ba_idd_code",
+      "cr3ba_importsequencenumber": "importsequencenumber (cr3ba_importsequencenumber)",
+      "cr3ba_lang_code": "cr3ba_lang_code",
+      "cr3ba_lang_name": "cr3ba_lang_name",
+      "cr3ba_modifiedby": "modifiedby (cr3ba_modifiedby)",
+      "cr3ba_modifiedbyname": "modifiedbyname",
+      "cr3ba_modifiedbyyominame": "modifiedbyyominame",
+      "cr3ba_modifiedon": "modifiedon (cr3ba_modifiedon)",
+      "cr3ba_modifiedonbehalfby": "modifiedonbehalfby (cr3ba_modifiedonbehalfby)",
+      "cr3ba_modifiedonbehalfbyname": "modifiedonbehalfbyname",
+      "cr3ba_modifiedonbehalfbyyominame": "modifiedonbehalfbyyominame",
+      "cr3ba_overriddencreatedon": "overriddencreatedon (cr3ba_overriddencreatedon)",
+      "cr3ba_ownerid": "ownerid",
+      "cr3ba_owneridname": "owneridname",
+      "cr3ba_owneridyominame": "owneridyominame",
+      "cr3ba_owningbusinessunit": "owningbusinessunit (cr3ba_owningbusinessunit)",
+      "cr3ba_owningbusinessunitname": "owningbusinessunitname",
+      "cr3ba_owningteam": "owningteam (cr3ba_owningteam)",
+      "cr3ba_owninguser": "owninguser (cr3ba_owninguser)",
+      "cr3ba_population": "cr3ba_population",
+      "cr3ba_statecode": "statecode (cr3ba_statecode)",
+      "cr3ba_statecodename": "statecodename",
+      "cr3ba_statuscode": "statuscode (cr3ba_statuscode)",
+      "cr3ba_statuscodename": "statuscodename",
+      "cr3ba_timezoneruleversionnumber": "timezoneruleversionnumber (cr3ba_timezoneruleversionnumber)",
+      "cr3ba_total_area": "cr3ba_total_area",
+      "cr3ba_url": "cr3ba_url",
+      "cr3ba_utcconversiontimezonecode": "utcconversiontimezonecode (cr3ba_utcconversiontimezonecode)",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Countrys",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Countrys (Views)",
+    "Name": "_cr3ba_country_views",
+    "RelatedEntityName": "Countrys",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "1839c1cc-b03d-45ae-a053-4edcb364997e": "Country Associated View",
+      "30ef2b95-cd3c-4f17-8b2a-45182fed4c84": "Country Advanced Find View",
+      "acf4816a-f467-4ea1-be39-1cc28e99340e": "Active Countrys",
+      "c3ca5097-4e79-4b56-b4b4-62e39306d06b": "Country Lookup View",
+      "eac2a5c4-2cff-4757-a054-3c6b8f17c57f": "Inactive Countrys"
+    }
+  },
+  {
+    "DisplayName": "Status (Countrys)",
+    "Name": "cr3ba_country_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Countrys"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Countrys",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Countrys)",
+    "Name": "cr3ba_country_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Countrys"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Countrys",
+    "Type": "OptionSetInfo"
+  }
+]

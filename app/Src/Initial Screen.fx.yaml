@@ -1,0 +1,29 @@
+"'Initial Screen' As screen":
+
+    Label1 As label:
+        Align: =Align.Center
+        Height: =70
+        Size: =36
+        Text: ="Hi " & First(Split(User().FullName, " ")).Value & "!"
+        Width: =460
+        X: =477
+        Y: =270
+        ZIndex: =1
+
+    Button1 As button:
+        FontWeight: =FontWeight.Bold
+        Height: =132
+        OnSelect: |-
+            =ClearCollect(Unplayed, CountriesCollection);
+            Set(PlayingNow, First(Shuffle(Unplayed)));
+            Set(CurrentScore, 100);
+            Set(TotalScore, 0);
+            Set(ShowBanner, false);
+            Navigate('Main Screen')
+        Size: =30
+        Text: ="Let's start the fun!"
+        Width: =460
+        X: =477
+        Y: =393
+        ZIndex: =2
+
