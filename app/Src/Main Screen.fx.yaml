@@ -33,14 +33,15 @@
     "'Submit Button' As button":
         OnSelect: |
             =Set(ShowBanner, true);
-            If(TextInput.Text = PlayingNow.cr3ba_country_name, Set(GuessedCorrect, true), Set(GuessedCorrect, false));
+            If(Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), Set(GuessedCorrect, true), Set(GuessedCorrect, false));
             If(GuessedCorrect, 
                 Set(TotalScore, TotalScore+CurrentScore);
                 Set(CurrentScore, 100);
                 Reset(TextInput);
                 RemoveIf(Unplayed, cr3ba_country_name = PlayingNow.cr3ba_country_name);
                 Set(PlayingNow, First(Shuffle(Unplayed))), 
-                Set(CurrentScore, CurrentScore - 10))
+                Set(CurrentScore, CurrentScore - 10)
+            )
         Text: ="Go!"
         Width: =110
         X: =753
@@ -56,11 +57,22 @@
         ZIndex: =5
 
     Banner As label:
+        Align: =Align.Center
         FontWeight: =FontWeight.Bold
         Size: =20
-        Text: =If(TextInput.Text = PlayingNow.cr3ba_country_name, "Yes!", "Nope!")
+        Text: =If(GuessedCorrect, "Yes!", "Nope!")
         Visible: =ShowBanner
         X: =574
         Y: =136
         ZIndex: =6
+
+    BannerTimer As timer:
+        Duration: =3000
+        OnTimerEnd: =Set(ShowBanner, false)
+        Start: =ShowBanner
+        Visible: |
+            =false
+        X: =569
+        Y: =263
+        ZIndex: =7
 

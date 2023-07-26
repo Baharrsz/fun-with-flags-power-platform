@@ -4,6 +4,7 @@
   "ControlUniqueIds": {
     "App": 1,
     "Banner": 13,
+    "BannerTimer": 16,
     "Button1": 7,
     "Host": 3,
     "Image1": 10,
@@ -17,7 +18,7 @@
   },
   "FunctionParamsInvariantScripts": {},
   "FunctionParamsInvariantScriptsOnInstances": {},
-  "HeaderLastSavedDateTimeUTC": "07/26/2023 21:22:01",
+  "HeaderLastSavedDateTimeUTC": "07/26/2023 21:56:46",
   "IsLegacyComponentAllowGlobalScopeCase": false,
   "LocalConnectionIDReferences": {},
   "LocalDatabaseReferencesAsEmpty": false,
@@ -41,11 +42,13 @@
     "button": 1,
     "image": 2,
     "label": 0,
-    "text": 3
+    "text": 4,
+    "timer": 3
   },
   "OverridablePropertiesEntry": {
     "App": {},
     "Banner": {},
+    "BannerTimer": {},
     "Button1": {},
     "Host": {},
     "Image1": {},
@@ -62,6 +65,7 @@
   "PublishOrderIndices": {
     "App": 0,
     "Banner": 4,
+    "BannerTimer": 6,
     "Button1": 1,
     "Host": 0,
     "Image1": 5,
@@ -70,8 +74,8 @@
     "Label2": 2,
     "Label2_1": 3,
     "Main Screen": 0,
-    "Submit Button": 7,
-    "TextInput": 6
+    "Submit Button": 8,
+    "TextInput": 7
   },
   "ResourcesJsonIndices": {
     "Image-SampleImage": 0
