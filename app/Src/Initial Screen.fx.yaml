@@ -18,7 +18,6 @@
             Set(PlayingNow, First(Shuffle(Unplayed)));
             Set(CurrentScore, 100);
             Set(TotalScore, 0);
-            Set(ShowBanner, false);
             Navigate('Main Screen')
         Size: =30
         Text: ="Let's start the fun!"

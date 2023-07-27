@@ -32,8 +32,7 @@
 
     "'Submit Button' As button":
         OnSelect: |
-            =Set(ShowBanner, true);
-            If(Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), UpdateContext({GameCondition: "correct"}), UpdateContext({GameCondition: "wrong"}));
+            =If(Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), UpdateContext({GameCondition: "correct"}), UpdateContext({GameCondition: "wrong"}));
             If(GameCondition = "correct", 
                 Set(TotalScore, TotalScore+CurrentScore);
                 Set(CurrentScore, 100);
@@ -52,7 +51,7 @@
     TextInput As text:
         Default: =
         HintText: ="Enter Country Name"
-        OnChange: =Set(ShowBanner, false)
+        OnChange: =
         X: =365
         Y: =408
         ZIndex: =5
@@ -63,19 +62,11 @@
         Height: =76
         Size: =20
         Text: =Switch(GameCondition, "gaveup",Concatenate("It was ", MissedCountry, ". Better luck next time!"), "wrong", "Nope!")
-        Visible: =ShowBanner
+        Visible: =!(Len(TextInput.Text) = 0) || GameCondition = "gaveup"
         Width: =766
         X: =273
         Y: =120
         ZIndex: =6
-
-    BannerTimer As timer:
-        Duration: =3000
-        OnTimerEnd: =Set(ShowBanner, false)
-        Start: =ShowBanner
-        X: =943
-        Y: =263
-        ZIndex: =7
 
     "'Language Button' As button":
         Height: =44
@@ -189,7 +180,7 @@
 
     "'Giveup Button' As button":
         OnSelect: |-
-            =UpdateContext({GameCondition: "gaveup", MissedCountry:PlayingNow.cr3ba_country_name, ShowBanner: true, ShowLang: false, ShowCurr: false, ShowArea: false, ShowPop: false, RevealCount: 0});
+            =UpdateContext({GameCondition: "gaveup", MissedCountry:PlayingNow.cr3ba_country_name, ShowLang: false, ShowCurr: false, ShowArea: false, ShowPop: false, RevealCount: 0});
             Reset(TextInput);
             Set(CurrentScore, 100);
             Set(PlayingNow, First(Shuffle(Unplayed)))
@@ -197,10 +188,4 @@
         X: =928
         Y: =408
         ZIndex: =18
-
-    Label9 As label:
-        Text: =ShowBanner
-        X: =68
-        Y: =310
-        ZIndex: =19
 

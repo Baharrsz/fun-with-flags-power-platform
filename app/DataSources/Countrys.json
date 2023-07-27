@@ -6,6 +6,7 @@
     "IsSampleData": false,
     "IsWritable": true,
     "LogicalName": "cr3ba_country",
+    "MaxGetRowsCount": 500,
     "Name": "Countrys",
     "NativeCDSDataSourceInfoNameMapping": {
       "_ownerid_value": "Owner",
