@@ -37,7 +37,7 @@
                 Set(TotalScore, TotalScore+CurrentScore);
                 Set(CurrentScore, 100);
                 Reset(TextInput);
-                UpdateContext({ShowLang: false, ShowCurr: false, ShowArea: false, ShowPop: false, RevealCount: 0});
+                UpdateContext({ShowLang: false, ShowCurr: false, ShowArea: false, ShowPpl: false, RevealCount: 0, ShowPopup: true, PplRandNum: RandBetween(-3, 0), AreaRandNum: RandBetween(-1,2)});
                 RemoveIf(Unplayed, cr3ba_country_name = PlayingNow.cr3ba_country_name);
                 Set(PlayingNow, First(Shuffle(Unplayed))), 
                 Set(CurrentScore, CurrentScore - 10)
@@ -105,7 +105,7 @@
         Size: =20
         Text: |-
             =Text(PlayingNow.cr3ba_population, "##,###")
-        Visible: =ShowPop
+        Visible: =ShowPpl
         Width: =362
         X: =956
         Y: =692
@@ -188,4 +188,72 @@
         X: =928
         Y: =408
         ZIndex: =18
+
+    "'Guess Area Label' As label":
+        Size: =16
+        Text: ="Area"
+        X: =273
+        Y: =479
+        ZIndex: =24
+
+    Group2 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =24
+
+        "'Popup Background' As rectangle":
+            Fill: =RGBA(102, 102, 102, 0.83)
+            Height: =App.Height
+            OnSelect: =
+            Width: =App.Width
+            ZIndex: =19
+
+        "'Popup Screen' As rectangle":
+            Fill: =RGBA(241, 244, 249, 1)
+            Height: =536
+            OnSelect: =
+            Width: =1050
+            X: =158
+            Y: =94
+            ZIndex: =20
+
+        "'Congrats Label' As label":
+            Align: =Align.Center
+            Height: =160
+            OnSelect: =
+            Size: =24
+            Text: |-
+                ="You guessed it! Well done!
+                
+                Do you want to earn some points by guessing the area or population?"
+            Width: =840
+            X: =273
+            Y: =156
+            ZIndex: =21
+
+        "'Refuse Button' As button":
+            OnSelect: =
+            Text: ="No, thanks"
+            X: =623
+            Y: =339
+            ZIndex: =22
+
+        "'Guess Population Label' As label":
+            OnSelect: =
+            Size: =16
+            Text: ="Population"
+            X: =273
+            Y: =412
+            ZIndex: =23
+
+    "'Population Slider' As slider":
+        Default: =(MinPpl + MaxPpl) / 2
+        Max: =MaxPpl
+        Min: =MinPpl
+        Width: =628
+        X: =433
+        Y: =412
+        ZIndex: =25
 

@@ -1,6 +1,9 @@
 App As appinfo:
     BackEnabled: =false
-    OnStart: =ClearCollect(CountriesCollection, ShowColumns(Countrys,"cr3ba_country_name","cr3ba_capital","cr3ba_currency_name","cr3ba_lang_name","cr3ba_population","cr3ba_timezoneruleversionnumber","cr3ba_total_area","cr3ba_url","cr3ba_utcconversiontimezonecode"))
+    OnStart: |
+        =ClearCollect(CountriesCollection, ShowColumns(Countrys,"cr3ba_country_name","cr3ba_capital","cr3ba_currency_name","cr3ba_lang_name","cr3ba_population","cr3ba_timezoneruleversionnumber","cr3ba_total_area","cr3ba_url","cr3ba_utcconversiontimezonecode"));
+        Set(MinPpl, Min(CountriesCollection, cr3ba_population));
+        Set(MaxPpl, Max(CountriesCollection, cr3ba_population));
     StartScreen: =
 
     Host As hostControl.DefaultHostControlVariant:
