@@ -1,6 +1,6 @@
 "'Main Screen' As screen":
 
-    Label2 As label:
+    "'Current Score Label' As label":
         FontWeight: =FontWeight.Bold
         Height: =68
         Size: =26
@@ -11,7 +11,7 @@
         Y: =40
         ZIndex: =1
 
-    Label2_1 As label:
+    "'Total Score Label' As label":
         FontWeight: =FontWeight.Bold
         Height: =68
         Size: =26
@@ -22,7 +22,7 @@
         Y: =40
         ZIndex: =2
 
-    Image1 As image:
+    Flag As image:
         Height: =250
         Image: =PlayingNow.cr3ba_url
         Width: =250
@@ -33,11 +33,12 @@
     "'Submit Button' As button":
         OnSelect: |
             =Set(ShowBanner, true);
-            If(Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), Set(GuessedCorrect, true), Set(GuessedCorrect, false));
-            If(GuessedCorrect, 
+            If(Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), UpdateContext({GameCondition: "correct"}), UpdateContext({GameCondition: "wrong"}));
+            If(GameCondition = "correct", 
                 Set(TotalScore, TotalScore+CurrentScore);
                 Set(CurrentScore, 100);
                 Reset(TextInput);
+                UpdateContext({ShowLang: false, ShowCurr: false, ShowArea: false, ShowPop: false, RevealCount: 0});
                 RemoveIf(Unplayed, cr3ba_country_name = PlayingNow.cr3ba_country_name);
                 Set(PlayingNow, First(Shuffle(Unplayed))), 
                 Set(CurrentScore, CurrentScore - 10)
@@ -59,20 +60,147 @@
     Banner As label:
         Align: =Align.Center
         FontWeight: =FontWeight.Bold
+        Height: =76
         Size: =20
-        Text: =If(GuessedCorrect, "Yes!", "Nope!")
+        Text: =Switch(GameCondition, "gaveup",Concatenate("It was ", MissedCountry, ". Better luck next time!"), "wrong", "Nope!")
         Visible: =ShowBanner
-        X: =574
-        Y: =136
+        Width: =766
+        X: =273
+        Y: =120
         ZIndex: =6
 
     BannerTimer As timer:
         Duration: =3000
         OnTimerEnd: =Set(ShowBanner, false)
         Start: =ShowBanner
-        Visible: |
-            =false
-        X: =569
+        X: =943
         Y: =263
         ZIndex: =7
+
+    "'Language Button' As button":
+        Height: =44
+        OnSelect: |-
+            =UpdateContext({ShowLang: true});
+            Set(CurrentScore, CurrentScore-5)
+        Text: ="See the language"
+        Tooltip: ="This will cost you 5 points"
+        Width: =277
+        X: =651
+        Y: =486
+        ZIndex: =8
+
+    Language As label:
+        Size: =20
+        Text: =PlayingNow.cr3ba_lang_name
+        Visible: =ShowLang
+        Width: =362
+        X: =956
+        Y: =490
+        ZIndex: =9
+
+    "'Population Button' As button":
+        Height: =44
+        OnSelect: |-
+            =UpdateContext({ShowPop: true});
+            Set(CurrentScore, CurrentScore-5)
+        Text: ="See the poulation"
+        Tooltip: ="This will cost you 5 points"
+        Width: =277
+        X: =651
+        Y: =688
+        ZIndex: =10
+
+    Population As label:
+        Size: =20
+        Text: |-
+            =Text(PlayingNow.cr3ba_population, "##,###")
+        Visible: =ShowPop
+        Width: =362
+        X: =956
+        Y: =692
+        ZIndex: =11
+
+    "'Area Button' As button":
+        Height: =44
+        OnSelect: |-
+            =UpdateContext({ShowArea: true});
+            Set(CurrentScore, CurrentScore-5)
+        Text: ="See the area"
+        Tooltip: ="This will cost you 5 points"
+        Width: =277
+        X: =651
+        Y: =620
+        ZIndex: =12
+
+    Area As label:
+        Size: =20
+        Text: |-
+            =Text(PlayingNow.cr3ba_total_area, "##,###")&" km2"
+        Visible: =ShowArea
+        Width: =362
+        X: =956
+        Y: =624
+        ZIndex: =13
+
+    "'Currency Button' As button":
+        Height: =44
+        OnSelect: |-
+            =UpdateContext({ShowCurr: true});
+            Set(CurrentScore, CurrentScore-5)
+        Text: ="See the currency"
+        Tooltip: ="This will cost you 5 points"
+        Width: =277
+        X: =651
+        Y: =552
+        ZIndex: =14
+
+    Currency As label:
+        Size: =20
+        Text: =PlayingNow.cr3ba_currency_name
+        Visible: =ShowCurr
+        Width: =362
+        X: =958
+        Y: =557
+        ZIndex: =15
+
+    "'Reveal Letter Button' As button":
+        DisplayMode: =If(RevealCount < Len(PlayingNow.cr3ba_country_name), DisplayMode.Edit, DisplayMode.Disabled)
+        Height: =107
+        OnSelect: |-
+            =UpdateContext({RevealCount: RevealCount + 1});
+            Set(CurrentScore, CurrentScore-15)
+        Text: ="Reveal the next letter"
+        Tooltip: ="This will cost you 15 points"
+        Width: =274
+        X: =186
+        Y: =523
+        ZIndex: =16
+
+    "'Revealed Letters' As label":
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =66
+        Size: =20
+        Text: =Left(PlayingNow.cr3ba_country_name, RevealCount)
+        Width: =256
+        X: =195
+        Y: =666
+        ZIndex: =17
+
+    "'Giveup Button' As button":
+        OnSelect: |-
+            =UpdateContext({GameCondition: "gaveup", MissedCountry:PlayingNow.cr3ba_country_name, ShowBanner: true, ShowLang: false, ShowCurr: false, ShowArea: false, ShowPop: false, RevealCount: 0});
+            Reset(TextInput);
+            Set(CurrentScore, 100);
+            Set(PlayingNow, First(Shuffle(Unplayed)))
+        Text: ="Give up"
+        X: =928
+        Y: =408
+        ZIndex: =18
+
+    Label9 As label:
+        Text: =ShowBanner
+        X: =68
+        Y: =310
+        ZIndex: =19
 

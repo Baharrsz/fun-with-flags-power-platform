@@ -1,6 +1,6 @@
 "'Initial Screen' As screen":
 
-    Label1 As label:
+    Greeting As label:
         Align: =Align.Center
         Height: =70
         Size: =36
@@ -10,7 +10,7 @@
         Y: =270
         ZIndex: =1
 
-    Button1 As button:
+    "'Start Button' As button":
         FontWeight: =FontWeight.Bold
         Height: =132
         OnSelect: |-
