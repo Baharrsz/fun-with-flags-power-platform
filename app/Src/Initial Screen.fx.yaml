@@ -10,7 +10,7 @@
         Y: =270
         ZIndex: =1
 
-    "'Start Button' As button":
+    StartBtn As button:
         FontWeight: =FontWeight.Bold
         Height: =132
         OnSelect: |-

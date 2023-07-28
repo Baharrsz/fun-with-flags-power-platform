@@ -1,6 +1,6 @@
 "'Main Screen' As screen":
 
-    "'Current Score Label' As label":
+    CurrentScoreLabel As label:
         FontWeight: =FontWeight.Bold
         Height: =68
         Size: =26
@@ -11,7 +11,7 @@
         Y: =40
         ZIndex: =1
 
-    "'Total Score Label' As label":
+    TotalScoreLabel As label:
         FontWeight: =FontWeight.Bold
         Height: =68
         Size: =26
@@ -30,14 +30,30 @@
         Y: =158
         ZIndex: =3
 
-    "'Submit Button' As button":
+    MainSubmitBtn As button:
         OnSelect: |
-            =If(Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), UpdateContext({GameCondition: "correct"}), UpdateContext({GameCondition: "wrong"}));
+            =If(
+                Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), 
+                UpdateContext({GameCondition: "correct"}), 
+                UpdateContext({GameCondition: "wrong"})
+            );
             If(GameCondition = "correct", 
                 Set(TotalScore, TotalScore+CurrentScore);
                 Set(CurrentScore, 100);
                 Reset(TextInput);
-                UpdateContext({ShowLang: false, ShowCurr: false, ShowArea: false, ShowPpl: false, RevealCount: 0, ShowPopup: true, PplRandNum: RandBetween(-3, 0), AreaRandNum: RandBetween(-1,2)});
+                UpdateContext({
+                    LastCountry: PlayingNow,
+                    ShowLang: false, 
+                    ShowCurr: false, 
+                    ShowArea: false, 
+                    RevealCount: 0, 
+                    ShowPopup: true, 
+                    PplRandNum: RandBetween(-3, 0),
+                    PplGuessSubmitted: false,
+                    PplBonus: 0,
+                    CapitalGuessSubmitted: false,
+                    CapitalBonus: 0
+                });
                 RemoveIf(Unplayed, cr3ba_country_name = PlayingNow.cr3ba_country_name);
                 Set(PlayingNow, First(Shuffle(Unplayed))), 
                 Set(CurrentScore, CurrentScore - 10)
@@ -61,14 +77,14 @@
         FontWeight: =FontWeight.Bold
         Height: =76
         Size: =20
-        Text: =Switch(GameCondition, "gaveup",Concatenate("It was ", MissedCountry, ". Better luck next time!"), "wrong", "Nope!")
+        Text: =Switch(GameCondition, "gaveup",Concatenate("It was ", LastCountry.cr3ba_country_name, ". Better luck next time!"), "wrong", "Nope!")
         Visible: =!(Len(TextInput.Text) = 0) || GameCondition = "gaveup"
         Width: =766
         X: =273
         Y: =120
         ZIndex: =6
 
-    "'Language Button' As button":
+    LanguageBtn As button:
         Height: =44
         OnSelect: |-
             =UpdateContext({ShowLang: true});
@@ -78,40 +94,18 @@
         Width: =277
         X: =651
         Y: =486
-        ZIndex: =8
+        ZIndex: =7
 
-    Language As label:
+    LanguageLabel As label:
         Size: =20
         Text: =PlayingNow.cr3ba_lang_name
         Visible: =ShowLang
         Width: =362
         X: =956
         Y: =490
-        ZIndex: =9
+        ZIndex: =8
 
-    "'Population Button' As button":
-        Height: =44
-        OnSelect: |-
-            =UpdateContext({ShowPop: true});
-            Set(CurrentScore, CurrentScore-5)
-        Text: ="See the poulation"
-        Tooltip: ="This will cost you 5 points"
-        Width: =277
-        X: =651
-        Y: =688
-        ZIndex: =10
-
-    Population As label:
-        Size: =20
-        Text: |-
-            =Text(PlayingNow.cr3ba_population, "##,###")
-        Visible: =ShowPpl
-        Width: =362
-        X: =956
-        Y: =692
-        ZIndex: =11
-
-    "'Area Button' As button":
+    AreaBtn As button:
         Height: =44
         OnSelect: |-
             =UpdateContext({ShowArea: true});
@@ -121,9 +115,9 @@
         Width: =277
         X: =651
         Y: =620
-        ZIndex: =12
+        ZIndex: =9
 
-    Area As label:
+    AreaLabel As label:
         Size: =20
         Text: |-
             =Text(PlayingNow.cr3ba_total_area, "##,###")&" km2"
@@ -131,9 +125,9 @@
         Width: =362
         X: =956
         Y: =624
-        ZIndex: =13
+        ZIndex: =10
 
-    "'Currency Button' As button":
+    CurrencyBtn As button:
         Height: =44
         OnSelect: |-
             =UpdateContext({ShowCurr: true});
@@ -143,16 +137,16 @@
         Width: =277
         X: =651
         Y: =552
-        ZIndex: =14
+        ZIndex: =11
 
-    Currency As label:
+    CurrencyLabel As label:
         Size: =20
         Text: =PlayingNow.cr3ba_currency_name
         Visible: =ShowCurr
         Width: =362
         X: =958
         Y: =557
-        ZIndex: =15
+        ZIndex: =12
 
     "'Reveal Letter Button' As button":
         DisplayMode: =If(RevealCount < Len(PlayingNow.cr3ba_country_name), DisplayMode.Edit, DisplayMode.Disabled)
@@ -165,7 +159,7 @@
         Width: =274
         X: =186
         Y: =523
-        ZIndex: =16
+        ZIndex: =13
 
     "'Revealed Letters' As label":
         Align: =Align.Center
@@ -176,50 +170,59 @@
         Width: =256
         X: =195
         Y: =666
-        ZIndex: =17
+        ZIndex: =14
 
-    "'Giveup Button' As button":
+    GiveupBtn As button:
         OnSelect: |-
-            =UpdateContext({GameCondition: "gaveup", MissedCountry:PlayingNow.cr3ba_country_name, ShowLang: false, ShowCurr: false, ShowArea: false, ShowPop: false, RevealCount: 0});
+            =UpdateContext({
+                GameCondition: "gaveup", 
+                LastCountry:PlayingNow, 
+                ShowLang: false, 
+                ShowCurr: false, 
+                ShowArea: false, 
+                RevealCount: 0
+            });
             Reset(TextInput);
             Set(CurrentScore, 100);
             Set(PlayingNow, First(Shuffle(Unplayed)))
         Text: ="Give up"
         X: =928
         Y: =408
-        ZIndex: =18
+        ZIndex: =15
 
-    "'Guess Area Label' As label":
-        Height: =42
-        Size: =16
-        Text: ="Capital City"
-        Width: =134
-        X: =175
-        Y: =481
-        ZIndex: =24
+    ResetGameBtn As button:
+        Height: =66
+        OnSelect: =Navigate('Initial Screen', ScreenTransition.Fade)
+        Text: ="Reset Game"
+        Width: =234
+        X: =1084
+        Y: =40
+        ZIndex: =16
 
-    Group2 As group:
+    Popup As group:
         Height: =5
         Width: =5
         X: =60
         Y: =60
-        ZIndex: =24
+        ZIndex: =29
 
         "'Popup Background' As rectangle":
             Fill: =RGBA(102, 102, 102, 0.83)
             Height: =App.Height
             OnSelect: =
+            Visible: =ShowPopup
             Width: =App.Width
-            ZIndex: =19
+            ZIndex: =17
 
         "'Popup Screen' As rectangle":
             Fill: =RGBA(241, 244, 249, 1)
             Height: =554
             OnSelect: =
+            Visible: =ShowPopup
             Width: =1102
             X: =141
             Y: =94
-            ZIndex: =20
+            ZIndex: =18
 
         "'Congrats Label' As label":
             Align: =Align.Center
@@ -230,74 +233,96 @@
                 ="You guessed it! Well done!
                 
                 Do you want to earn some points by guessing the capital or population?"
+            Visible: =ShowPopup
             Width: =840
             X: =273
             Y: =156
-            ZIndex: =21
+            ZIndex: =19
 
-        "'Refuse Button' As button":
-            OnSelect: =
-            Text: ="No, thanks"
-            X: =623
-            Y: =339
-            ZIndex: =22
+        GoBackBtn As button:
+            OnSelect: |-
+                =Set(CurrentScore, CurrentScore + PplBonus + CapitalBonus);
+                UpdateContext({ShowPopup: false})
+            Text: ="Go Back"
+            Visible: =ShowPopup
+            X: =603
+            Y: =542
+            ZIndex: =20
 
         "'Guess Population Label' As label":
             OnSelect: =
             Size: =16
             Text: ="Population"
+            Visible: =ShowPopup
             Width: =134
-            X: =175
-            Y: =412
+            X: =184
+            Y: =369
+            ZIndex: =21
+
+        "'Guess Area Label' As label":
+            Height: =42
+            Size: =16
+            Text: ="Capital City"
+            Visible: =ShowPopup
+            Width: =134
+            X: =184
+            Y: =438
+            ZIndex: =22
+
+        PplSlider As slider:
+            Default: =If(PplGuessSubmitted, PlayingNow.cr3ba_population, (MinPpl + MaxPpl) / 2)
+            Height: =38
+            Max: =MaxPpl
+            Min: =MinPpl
+            Tooltip: =
+            Visible: =ShowPopup
+            Width: =673
+            X: =318
+            Y: =371
             ZIndex: =23
 
-    PplSlider As slider:
-        Default: =If(PplGuessSubmitted, PlayingNow.cr3ba_population, (MinPpl + MaxPpl) / 2)
-        Height: =38
-        Max: =MaxPpl
-        Min: =MinPpl
-        Tooltip: =
-        Width: =673
-        X: =309
-        Y: =414
-        ZIndex: =25
+        SubmitPpl As button:
+            DisplayMode: =If(PplGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
+            Fill: =If(PplGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
+            OnSelect: |-
+                =UpdateContext({
+                    PplGuessSubmitted: true, 
+                    PplBonus: Int(Abs(PplSlider.Value - LastCountry.cr3ba_population) * 20 /Max(MaxPpl-LastCountry.cr3ba_population, LastCountry.cr3ba_population - MinPpl))
+                });
+                Reset(PplSlider);
+            Text: |-
+                =If(PplGuessSubmitted, "Score: " & PplBonus , "Submit Answer")
+            Visible: =ShowPopup
+            Width: =194
+            X: =1005
+            Y: =369
+            ZIndex: =24
 
-    SubmitPpl As button:
-        DisplayMode: =If(PplGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
-        Fill: =If(PplGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
-        OnSelect: |-
-            =UpdateContext({PplGuessSubmitted: true, PplBonus: Int(Abs(PplSlider.Value - PlayingNow.cr3ba_population) * 20 /Max(MaxPpl-PlayingNow.cr3ba_population, PlayingNow.cr3ba_population - MinPpl))});
-            Reset(PplSlider);
-        Text: |-
-            =If(PplGuessSubmitted, "Score: " & PplBonus , "Submit Answer")
-        Width: =194
-        X: =996
-        Y: =412
-        ZIndex: =26
+        CapitalRadio As radio:
+            Default: =If(CapitalGuessSubmitted, PlayingNow.cr3ba_capital, "")
+            DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.Disabled, DisplayMode.Edit)
+            Height: =79
+            Items: |-
+                =ShowColumns(Shuffle(Ungroup(Table({MyTables: FirstN(Shuffle(Filter(CountriesCollection,cr3ba_capital<>PlayingNow.cr3ba_capital)), 3)}, {MyTables: Table(PlayingNow)}), "MyTables")), "cr3ba_capital")
+            Layout: =Layout.Horizontal
+            Reset: =true
+            Visible: =ShowPopup
+            Width: =673
+            X: =318
+            Y: =425
+            ZIndex: =25
 
-    CapitalRadio As radio:
-        Default: =If(CapitalGuessSubmitted, PlayingNow.cr3ba_capital, "")
-        DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.Disabled, DisplayMode.Edit)
-        Height: =79
-        Items: |-
-            =ShowColumns(Shuffle(Ungroup(Table({MyTables: FirstN(Shuffle(Filter(CountriesCollection,cr3ba_capital<>PlayingNow.cr3ba_capital)), 3)}, {MyTables: Table(PlayingNow)}), "MyTables")), "cr3ba_capital")
-        Layout: =Layout.Horizontal
-        Reset: =true
-        Width: =673
-        X: =309
-        Y: =468
-        ZIndex: =27
-
-    SubmitCapital As button:
-        DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
-        Fill: =If(CapitalGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
-        OnSelect: |-
-            =UpdateContext({CapitalGuessSubmitted: true, CapitalBonus: If(CapitalRadio.Selected.cr3ba_capital = PlayingNow.cr3ba_capital, 10, 0)});
-            Reset(CapitalRadio);
-        Text: |-
-            =If(CapitalGuessSubmitted, "Score: " & CapitalBonus , "Submit Answer")
-        Width: =194
-        X: =996
-        Y: =492
-        ZIndex: =28
+        SubmitCapital As button:
+            DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
+            Fill: =If(CapitalGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
+            OnSelect: |-
+                =UpdateContext({CapitalGuessSubmitted: true, CapitalBonus: If(CapitalRadio.Selected.cr3ba_capital = LastCountry.cr3ba_capital, 10, 0)});
+                Reset(CapitalRadio);
+            Text: |-
+                =If(CapitalGuessSubmitted, "Score: " & CapitalBonus , "Submit Answer")
+            Visible: =ShowPopup
+            Width: =194
+            X: =1005
+            Y: =449
+            ZIndex: =26
 
