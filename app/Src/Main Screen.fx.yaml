@@ -194,7 +194,7 @@
         Size: =16
         Text: ="Capital City"
         Width: =134
-        X: =195
+        X: =175
         Y: =481
         ZIndex: =24
 
@@ -214,10 +214,10 @@
 
         "'Popup Screen' As rectangle":
             Fill: =RGBA(241, 244, 249, 1)
-            Height: =536
+            Height: =554
             OnSelect: =
-            Width: =1050
-            X: =158
+            Width: =1102
+            X: =141
             Y: =94
             ZIndex: =20
 
@@ -247,7 +247,7 @@
             Size: =16
             Text: ="Population"
             Width: =134
-            X: =195
+            X: =175
             Y: =412
             ZIndex: =23
 
@@ -257,12 +257,12 @@
         Max: =MaxPpl
         Min: =MinPpl
         Tooltip: =
-        Width: =599
-        X: =329
+        Width: =673
+        X: =309
         Y: =414
         ZIndex: =25
 
-    Button1 As button:
+    SubmitPpl As button:
         DisplayMode: =If(PplGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
         Fill: =If(PplGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
         OnSelect: |-
@@ -271,17 +271,33 @@
         Text: |-
             =If(PplGuessSubmitted, "Score: " & PplBonus , "Submit Answer")
         Width: =194
-        X: =956
+        X: =996
         Y: =412
         ZIndex: =26
 
-    Radio1 As radio:
-        Height: =69
+    CapitalRadio As radio:
+        Default: =If(CapitalGuessSubmitted, PlayingNow.cr3ba_capital, "")
+        DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.Disabled, DisplayMode.Edit)
+        Height: =79
         Items: |-
             =ShowColumns(Shuffle(Ungroup(Table({MyTables: FirstN(Shuffle(Filter(CountriesCollection,cr3ba_capital<>PlayingNow.cr3ba_capital)), 3)}, {MyTables: Table(PlayingNow)}), "MyTables")), "cr3ba_capital")
         Layout: =Layout.Horizontal
-        Width: =599
-        X: =329
-        Y: =473
+        Reset: =true
+        Width: =673
+        X: =309
+        Y: =468
         ZIndex: =27
+
+    SubmitCapital As button:
+        DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
+        Fill: =If(CapitalGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
+        OnSelect: |-
+            =UpdateContext({CapitalGuessSubmitted: true, CapitalBonus: If(CapitalRadio.Selected.cr3ba_capital = PlayingNow.cr3ba_capital, 10, 0)});
+            Reset(CapitalRadio);
+        Text: |-
+            =If(CapitalGuessSubmitted, "Score: " & CapitalBonus , "Submit Answer")
+        Width: =194
+        X: =996
+        Y: =492
+        ZIndex: =28
 

@@ -402,6 +402,18 @@
               "message": {
                 "text": "Error occurred running rule app-InefficientDelayLoading."
               }
+            },
+            {
+              "associatedRule": {
+                "id": "app-InefficientDelayLoading",
+                "index": 3
+              },
+              "descriptor": {
+                "id": "app-InefficientDelayLoading"
+              },
+              "message": {
+                "text": "Error occurred running rule app-InefficientDelayLoading."
+              }
             }
           ]
         }
@@ -472,19 +484,19 @@
             {
               "logicalLocations": [
                 {
-                  "fullyQualifiedName": "'Main Screen'.Radio1.AccessibleLabel"
+                  "fullyQualifiedName": "'Main Screen'.CapitalRadio.AccessibleLabel"
                 }
               ],
               "physicalLocation": {
                 "address": {
-                  "fullyQualifiedName": "'Main Screen'.Radio1.AccessibleLabel",
+                  "fullyQualifiedName": "'Main Screen'.CapitalRadio.AccessibleLabel",
                   "relativeAddress": 0
                 }
               },
               "properties": {
                 "member": "AccessibleLabel",
                 "module": "Main Screen",
-                "type": "'Main Screen'.Radio1"
+                "type": "'Main Screen'.CapitalRadio"
               }
             }
           ],
