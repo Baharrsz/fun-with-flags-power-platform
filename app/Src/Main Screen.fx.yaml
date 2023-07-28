@@ -190,10 +190,12 @@
         ZIndex: =18
 
     "'Guess Area Label' As label":
+        Height: =42
         Size: =16
-        Text: ="Area"
-        X: =273
-        Y: =479
+        Text: ="Capital City"
+        Width: =134
+        X: =195
+        Y: =481
         ZIndex: =24
 
     Group2 As group:
@@ -227,7 +229,7 @@
             Text: |-
                 ="You guessed it! Well done!
                 
-                Do you want to earn some points by guessing the area or population?"
+                Do you want to earn some points by guessing the capital or population?"
             Width: =840
             X: =273
             Y: =156
@@ -244,16 +246,42 @@
             OnSelect: =
             Size: =16
             Text: ="Population"
-            X: =273
+            Width: =134
+            X: =195
             Y: =412
             ZIndex: =23
 
-    "'Population Slider' As slider":
-        Default: =(MinPpl + MaxPpl) / 2
+    PplSlider As slider:
+        Default: =If(PplGuessSubmitted, PlayingNow.cr3ba_population, (MinPpl + MaxPpl) / 2)
+        Height: =38
         Max: =MaxPpl
         Min: =MinPpl
-        Width: =628
-        X: =433
-        Y: =412
+        Tooltip: =
+        Width: =599
+        X: =329
+        Y: =414
         ZIndex: =25
+
+    Button1 As button:
+        DisplayMode: =If(PplGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
+        Fill: =If(PplGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
+        OnSelect: |-
+            =UpdateContext({PplGuessSubmitted: true, PplBonus: Int(Abs(PplSlider.Value - PlayingNow.cr3ba_population) * 20 /Max(MaxPpl-PlayingNow.cr3ba_population, PlayingNow.cr3ba_population - MinPpl))});
+            Reset(PplSlider);
+        Text: |-
+            =If(PplGuessSubmitted, "Score: " & PplBonus , "Submit Answer")
+        Width: =194
+        X: =956
+        Y: =412
+        ZIndex: =26
+
+    Radio1 As radio:
+        Height: =69
+        Items: |-
+            =ShowColumns(Shuffle(Ungroup(Table({MyTables: FirstN(Shuffle(Filter(CountriesCollection,cr3ba_capital<>PlayingNow.cr3ba_capital)), 3)}, {MyTables: Table(PlayingNow)}), "MyTables")), "cr3ba_capital")
+        Layout: =Layout.Horizontal
+        Width: =599
+        X: =329
+        Y: =473
+        ZIndex: =27
 
