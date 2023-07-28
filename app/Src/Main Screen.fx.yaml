@@ -48,11 +48,7 @@
                     ShowArea: false, 
                     RevealCount: 0, 
                     ShowPopup: true, 
-                    PplRandNum: RandBetween(-3, 0),
-                    PplGuessSubmitted: false,
-                    PplBonus: 0,
-                    CapitalGuessSubmitted: false,
-                    CapitalBonus: 0
+                    PplRandNum: RandBetween(-3, 0)
                 });
                 RemoveIf(Unplayed, cr3ba_country_name = PlayingNow.cr3ba_country_name);
                 Set(PlayingNow, First(Shuffle(Unplayed))), 
@@ -241,8 +237,14 @@
 
         GoBackBtn As button:
             OnSelect: |-
-                =Set(CurrentScore, CurrentScore + PplBonus + CapitalBonus);
-                UpdateContext({ShowPopup: false})
+                =UpdateContext({
+                    ShowPopup: false,
+                    PplGuessSubmitted: false,
+                    PplBonus: 0,
+                    CapitalGuessSubmitted: false,
+                    CapitalBonus: 0
+                })
+                 
             Text: ="Go Back"
             Visible: =ShowPopup
             X: =603
@@ -270,7 +272,7 @@
             ZIndex: =22
 
         PplSlider As slider:
-            Default: =If(PplGuessSubmitted, PlayingNow.cr3ba_population, (MinPpl + MaxPpl) / 2)
+            Default: =If(PplGuessSubmitted, LastCountry.cr3ba_population, (MinPpl + MaxPpl) / 2)
             Height: =38
             Max: =MaxPpl
             Min: =MinPpl
@@ -284,11 +286,17 @@
         SubmitPpl As button:
             DisplayMode: =If(PplGuessSubmitted, DisplayMode.View , DisplayMode.Edit)
             Fill: =If(PplGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
-            OnSelect: |-
+            OnSelect: |
                 =UpdateContext({
-                    PplGuessSubmitted: true, 
-                    PplBonus: Int(Abs(PplSlider.Value - LastCountry.cr3ba_population) * 20 /Max(MaxPpl-LastCountry.cr3ba_population, LastCountry.cr3ba_population - MinPpl))
+                    PplGuessSubmitted: true,
+                    PplBonus: Int(
+                        (1 - (Abs(PplSlider.Value - LastCountry.cr3ba_population) / Max(
+                            MaxPpl - LastCountry.cr3ba_population,
+                            LastCountry.cr3ba_population - MinPpl
+                        ))) * 20
+                    )
                 });
+                Set(CurrentScore, CurrentScore + PplBonus);
                 Reset(PplSlider);
             Text: |-
                 =If(PplGuessSubmitted, "Score: " & PplBonus , "Submit Answer")
@@ -299,11 +307,21 @@
             ZIndex: =24
 
         CapitalRadio As radio:
-            Default: =If(CapitalGuessSubmitted, PlayingNow.cr3ba_capital, "")
+            Default: =If(CapitalGuessSubmitted, LastCountry.cr3ba_capital, "")
             DisplayMode: =If(CapitalGuessSubmitted, DisplayMode.Disabled, DisplayMode.Edit)
             Height: =79
             Items: |-
-                =ShowColumns(Shuffle(Ungroup(Table({MyTables: FirstN(Shuffle(Filter(CountriesCollection,cr3ba_capital<>PlayingNow.cr3ba_capital)), 3)}, {MyTables: Table(PlayingNow)}), "MyTables")), "cr3ba_capital")
+                =ShowColumns(
+                    Shuffle(
+                        Ungroup(
+                            Table(
+                                {MyTables: FirstN(Shuffle(Filter(CountriesCollection,cr3ba_capital<>LastCountry.cr3ba_capital)), 3)}, 
+                                {MyTables: Table(LastCountry)}), 
+                            "MyTables"
+                        )
+                    ), 
+                    "cr3ba_capital"
+                )
             Layout: =Layout.Horizontal
             Reset: =true
             Visible: =ShowPopup
@@ -317,6 +335,7 @@
             Fill: =If(CapitalGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
             OnSelect: |-
                 =UpdateContext({CapitalGuessSubmitted: true, CapitalBonus: If(CapitalRadio.Selected.cr3ba_capital = LastCountry.cr3ba_capital, 10, 0)});
+                Set(CurrentScore, CurrentScore + CapitalBonus);
                 Reset(CapitalRadio);
             Text: |-
                 =If(CapitalGuessSubmitted, "Score: " & CapitalBonus , "Submit Answer")
