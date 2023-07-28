@@ -289,7 +289,7 @@
             OnSelect: |
                 =UpdateContext({
                     PplGuessSubmitted: true,
-                    PplBonus: Int(
+                    PplBonus:Trunc(        
                         (1 - (Abs(PplSlider.Value - LastCountry.cr3ba_population) / Max(
                             MaxPpl - LastCountry.cr3ba_population,
                             LastCountry.cr3ba_population - MinPpl
