@@ -1,18 +1,29 @@
 "'Initial Screen' As screen":
 
+    BackgroundImage As image:
+        Height: =App.Height
+        Image: |-
+            ="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/A_large_blank_world_map_with_oceans_marked_in_blue.PNG/1600px-A_large_blank_world_map_with_oceans_marked_in_blue.PNG?20230603184011"
+        ImagePosition: =ImagePosition.Fill
+        Transparency: =0.2
+        Width: =App.Width
+        ZIndex: =1
+
     Greeting As label:
         Align: =Align.Center
-        Height: =70
-        Size: =36
+        Color: =RGBA(56, 96, 178, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =130
+        Size: =60
         Text: ="Hi " & First(Split(User().FullName, " ")).Value & "!"
-        Width: =460
-        X: =477
-        Y: =270
-        ZIndex: =1
+        Width: =App.Width - 600
+        X: =300
+        Y: =225
+        ZIndex: =2
 
     StartBtn As button:
         FontWeight: =FontWeight.Bold
-        Height: =132
+        Height: =176
         OnSelect: |-
             =ClearCollect(Unplayed, CountriesCollection);
             Set(PlayingNow, First(Shuffle(Unplayed)));
@@ -20,9 +31,9 @@
             Set(TotalScore, 0);
             Navigate('Main Screen')
         Size: =30
-        Text: ="Let's start the fun!"
+        Text: ="Let's have some fun with flags!"
         Width: =460
-        X: =477
-        Y: =393
-        ZIndex: =2
+        X: =453
+        Y: =389
+        ZIndex: =3
 
