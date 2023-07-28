@@ -97,6 +97,7 @@
             ZIndex: =5
 
         MainSubmitBtn As button:
+            DisplayMode: =If(RevealCount < Len(PlayingNow.cr3ba_country_name), DisplayMode.Edit, DisplayMode.Disabled)
             OnSelect: |
                 =If(
                     Lower(TextInput.Text) = Lower(PlayingNow.cr3ba_country_name), 
@@ -268,7 +269,7 @@
                         ))) * 20
                     )
                 });
-                Set(CurrentScore, CurrentScore + PplBonus);
+                Set(TotalScore, TotalScore + PplBonus);
                 Reset(PplSlider);
             Text: |-
                 =If(PplGuessSubmitted, "Score: " & PplBonus , "Submit Answer")
@@ -307,7 +308,7 @@
             Fill: =If(CapitalGuessSubmitted, Color.ForestGreen , RGBA(56, 96, 178, 1))
             OnSelect: |-
                 =UpdateContext({CapitalGuessSubmitted: true, CapitalBonus: If(CapitalRadio.Selected.cr3ba_capital = LastCountry.cr3ba_capital, 10, 0)});
-                Set(CurrentScore, CurrentScore + CapitalBonus);
+                Set(TotalScore, TotalScore + CapitalBonus);
                 Reset(CapitalRadio);
             Text: |-
                 =If(CapitalGuessSubmitted, "Score: " & CapitalBonus , "Submit Answer")
